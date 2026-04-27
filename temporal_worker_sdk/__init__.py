@@ -8,12 +8,11 @@ A zero-boilerplate SDK for running Temporal workers with automatic:
 - Prometheus metrics
 """
 
-import os
+__version__ = "0.1.0"
 
 from temporal_worker_sdk.core import TemporalSDK
 from temporal_worker_sdk.config import SDKConfig, TemporalConfig, WorkerConfig, HealthProbeConfig
 
-__version__ = os.getenv("SETUPTOOLS_SCM_PRETEND_VERSION", "0.1.0")
 __all__ = [
     "TemporalSDK",
     "SDKConfig",

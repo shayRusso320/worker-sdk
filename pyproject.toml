@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "temporal-worker-sdk"
-dynamic = ["version"]
+version = "0.1.0"
 description = "Production-grade Python SDK for running Temporal workers with zero boilerplate"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -46,6 +46,3 @@ Issues = "https://github.com/finubit/temporal-worker-sdk/issues"
 
 [tool.setuptools]
 packages = ["temporal_worker_sdk"]
-
-[tool.setuptools.dynamic.version]
-attr = "temporal_worker_sdk.__version__"
