@@ -12,7 +12,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 from temporalio import workflow, activity
 
-from sdk import TemporalSDK
+from temporal_worker_sdk import TemporalSDK
 
 logger = logging.getLogger(__name__)
 

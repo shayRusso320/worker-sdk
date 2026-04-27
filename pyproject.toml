@@ -45,4 +45,4 @@ Repository = "https://github.com/finubit/temporal-worker-sdk.git"
 Issues = "https://github.com/finubit/temporal-worker-sdk/issues"
 
 [tool.setuptools]
-packages = ["sdk"]
+packages = ["temporal_worker_sdk"]
