@@ -1,0 +1,100 @@
+---
+# Simple worker deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temporal-worker
+  namespace: temporal
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: temporal-worker
+  template:
+    metadata:
+      labels:
+        app: temporal-worker
+    spec:
+      containers:
+      - name: worker
+        image: your-registry/temporal-worker:latest
+        imagePullPolicy: Always
+        env:
+        - name: TEMPORAL_HOST
+          value: temporal-frontend.temporal.svc.cluster.local
+        - name: TEMPORAL_PORT
+          value: "7233"
+        - name: TEMPORAL_NAMESPACE
+          value: temporal
+        - name: WORKER_TASK_QUEUE
+          value: default
+        - name: WORKER_MAX_CONCURRENT_ACTIVITIES
+          value: "100"
+        - name: WORKER_MAX_CONCURRENT_WORKFLOW_TASKS
+          value: "40"
+        - name: WORKER_GRACEFUL_SHUTDOWN_TIMEOUT
+          value: "30"
+        - name: HEALTH_PROBE_HOST
+          value: "0.0.0.0"
+        - name: HEALTH_PROBE_PORT
+          value: "8080"
+        - name: HEALTH_PROBE_ENABLED
+          value: "true"
+        ports:
+        - name: metrics
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: metrics
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: metrics
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+---
+# Service for metrics
+apiVersion: v1
+kind: Service
+metadata:
+  name: temporal-worker
+  namespace: temporal
+  labels:
+    app: temporal-worker
+spec:
+  type: ClusterIP
+  ports:
+  - name: metrics
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: temporal-worker
+
+---
+# ServiceMonitor for Prometheus
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: temporal-worker
+  namespace: temporal
+spec:
+  selector:
+    matchLabels:
+      app: temporal-worker
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
