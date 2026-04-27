@@ -48,5 +48,4 @@ Issues = "https://github.com/finubit/temporal-worker-sdk/issues"
 packages = ["temporal_worker_sdk"]
 
 [tool.setuptools.dynamic.version]
-file = "temporal_worker_sdk/__init__.py"
-pattern = '__version__ = "(?P<version>[^"]+)"'
+attr = "temporal_worker_sdk.__version__"
