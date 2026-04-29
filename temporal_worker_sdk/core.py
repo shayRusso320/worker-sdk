@@ -7,11 +7,11 @@ from typing import Any, Type
 from temporalio.client import Client
 from temporalio.worker import Worker
 
-from sdk.config import SDKConfig
-from sdk.logging import setup_logging
-from sdk.metrics import WorkerMetrics
-from sdk.health_probe import HealthProbeServer
-from sdk.shutdown import GracefulShutdownHandler
+from temporal_worker_sdk.config import SDKConfig
+from temporal_worker_sdk.logging import setup_logging
+from temporal_worker_sdk.metrics import WorkerMetrics
+from temporal_worker_sdk.health_probe import HealthProbeServer
+from temporal_worker_sdk.shutdown import GracefulShutdownHandler
 
 logger = logging.getLogger(__name__)
 

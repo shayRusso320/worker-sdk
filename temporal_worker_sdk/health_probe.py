@@ -6,7 +6,7 @@ from fastapi.responses import Response
 from pydantic import BaseModel
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 
-from sdk.config import HealthProbeConfig
+from temporal_worker_sdk.config import HealthProbeConfig
 
 logger = logging.getLogger(__name__)
 
